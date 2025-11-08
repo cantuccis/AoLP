@@ -1,0 +1,157 @@
+{
+  "towns": [
+    {
+      "id": "town_1",
+      "name": "Riverside",
+      "position": { "x": -30, "y": 0, "z": -30 },
+      "buildings": [
+        {
+          "modelName": "house",
+          "position": { "x": 0, "y": 0, "z": 0 },
+          "rotation": 0,
+          "scale": 1.0
+        },
+        {
+          "modelName": "house",
+          "position": { "x": 8, "y": 0, "z": 0 },
+          "rotation": 0.5,
+          "scale": 0.9
+        },
+        {
+          "modelName": "tower",
+          "position": { "x": 4, "y": 0, "z": -6 },
+          "rotation": 0,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "id": "town_2",
+      "name": "Hillcrest",
+      "position": { "x": 25, "y": 0, "z": -20 },
+      "buildings": [
+        {
+          "modelName": "house",
+          "position": { "x": 0, "y": 0, "z": 0 },
+          "rotation": 1.5,
+          "scale": 1.1
+        },
+        {
+          "modelName": "house",
+          "position": { "x": -7, "y": 0, "z": 2 },
+          "rotation": 2.0,
+          "scale": 0.95
+        },
+        {
+          "modelName": "market",
+          "position": { "x": -3, "y": 0, "z": -5 },
+          "rotation": 0,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "id": "town_3",
+      "name": "Oakwood",
+      "position": { "x": 0, "y": 0, "z": 35 },
+      "buildings": [
+        {
+          "modelName": "house",
+          "position": { "x": 0, "y": 0, "z": 0 },
+          "rotation": 3.14,
+          "scale": 1.0
+        },
+        {
+          "modelName": "house",
+          "position": { "x": 6, "y": 0, "z": 4 },
+          "rotation": -0.8,
+          "scale": 1.0
+        },
+        {
+          "modelName": "tower",
+          "position": { "x": 3, "y": 0, "z": -4 },
+          "rotation": 0,
+          "scale": 0.9
+        }
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "road_1_2",
+      "width": 3.0,
+      "waypoints": [
+        { "position": { "x": -30, "y": 0, "z": -30 } },
+        { "position": { "x": -15, "y": 0, "z": -28 } },
+        { "position": { "x": 0, "y": 0, "z": -25 } },
+        { "position": { "x": 15, "y": 0, "z": -23 } },
+        { "position": { "x": 25, "y": 0, "z": -20 } }
+      ]
+    },
+    {
+      "id": "road_2_3",
+      "width": 3.0,
+      "waypoints": [
+        { "position": { "x": 25, "y": 0, "z": -20 } },
+        { "position": { "x": 20, "y": 0, "z": 0 } },
+        { "position": { "x": 10, "y": 0, "z": 20 } },
+        { "position": { "x": 0, "y": 0, "z": 35 } }
+      ]
+    },
+    {
+      "id": "road_1_3",
+      "width": 3.0,
+      "waypoints": [
+        { "position": { "x": -30, "y": 0, "z": -30 } },
+        { "position": { "x": -25, "y": 0, "z": -10 } },
+        { "position": { "x": -15, "y": 0, "z": 10 } },
+        { "position": { "x": -5, "y": 0, "z": 25 } },
+        { "position": { "x": 0, "y": 0, "z": 35 } }
+      ]
+    }
+  ],
+  "peasants": [
+    {
+      "modelName": "peasant",
+      "position": { "x": -28, "y": 0, "z": -28 },
+      "rotation": 0.5
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": -32, "y": 0, "z": -32 },
+      "rotation": 2.0
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": 23, "y": 0, "z": -18 },
+      "rotation": 1.0
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": 27, "y": 0, "z": -22 },
+      "rotation": -0.5
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": 2, "y": 0, "z": 33 },
+      "rotation": 3.0
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": -2, "y": 0, "z": 37 },
+      "rotation": 1.5
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": -15, "y": 0, "z": -25 },
+      "rotation": 0
+    },
+    {
+      "modelName": "peasant",
+      "position": { "x": 10, "y": 0, "z": 20 },
+      "rotation": 2.5
+    }
+  ],
+  "props": []
+}
+

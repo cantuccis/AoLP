@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medieval Kingdom 3D</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        overflow: hidden;
+        font-family: 'Arial', sans-serif;
+      }
+      #canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+      }
+      #stats {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+      #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: opacity 0.5s;
+      }
+      #loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #loading-content {
+        text-align: center;
+        color: white;
+      }
+      #loading-content h1 {
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+      #loading-bar {
+        width: 300px;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        margin: 20px auto;
+        overflow: hidden;
+      }
+      #loading-progress {
+        height: 100%;
+        background: #4caf50;
+        width: 0%;
+        transition: width 0.3s;
+      }
+      #gold-counter {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        color: #ffd700;
+        padding: 15px 25px;
+        border-radius: 8px;
+        font-family: 'Arial', sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #gold-counter .gold-icon {
+        font-size: 24px;
+      }
+      #gold-counter .gold-amount {
+        color: #ffd700;
+      }
+      #wood-counter {
+        position: absolute;
+        top: 70px;
+        right: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        color: #8b4513;
+        padding: 15px 25px;
+        border-radius: 8px;
+        font-family: 'Arial', sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #wood-counter .wood-icon {
+        font-size: 24px;
+      }
+      #wood-counter .wood-amount {
+        color: #cd853f;
+      }
+      #peasant-list {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Arial', sans-serif;
+        font-size: 14px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        max-height: 550px;
+        overflow-y: auto;
+        min-width: 340px;
+        pointer-events: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+      #peasant-list::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+      #peasant-list h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        color: #ffd700;
+        border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        padding-bottom: 5px;
+      }
+      #peasant-list-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: auto;
+      }
+      .peasant-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        border-left: 3px solid #4caf50;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+        pointer-events: auto;
+        user-select: none;
+        gap: 8px;
+      }
+      .peasant-item:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .peasant-item:active {
+        transform: scale(0.98);
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .peasant-item.selected {
+        background: rgba(76, 175, 80, 0.3);
+        border-left-color: #4caf50;
+        border-left-width: 5px;
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+      }
+      .peasant-item.selected:hover {
+        background: rgba(76, 175, 80, 0.4);
+      }
+      .peasant-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+      }
+      .cancel-task-btn {
+        background: rgba(255, 0, 0, 0.3);
+        border: 1px solid rgba(255, 0, 0, 0.5);
+        color: #fff;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .cancel-task-btn:hover:not(:disabled) {
+        background: rgba(255, 0, 0, 0.5);
+        border-color: rgba(255, 0, 0, 0.8);
+        transform: scale(1.1);
+      }
+      .cancel-task-btn:active:not(:disabled) {
+        transform: scale(0.95);
+        background: rgba(255, 0, 0, 0.7);
+      }
+      .cancel-task-btn:disabled {
+        background: rgba(100, 100, 100, 0.2);
+        border-color: rgba(100, 100, 100, 0.3);
+        color: rgba(255, 255, 255, 0.3);
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+      .peasant-item.mining {
+        border-left-color: #ff9800;
+      }
+      .peasant-name {
+        font-weight: bold;
+        color: #fff;
+      }
+      .peasant-task {
+        color: #aaa;
+        font-size: 12px;
+      }
+      .peasant-task.mining {
+        color: #ff9800;
+      }
+      .peasant-task.idle {
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="canvas-overlay" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: auto;"></div>
+    <div id="stats"></div>
+    <div id="gold-counter">
+      <span class="gold-icon">💰</span>
+      <span>Gold: <span class="gold-amount" id="gold-amount">0</span></span>
+    </div>
+    <div id="wood-counter">
+      <span class="wood-icon">🪵</span>
+      <span>Wood: <span class="wood-amount" id="wood-amount">0</span></span>
+    </div>
+    <div id="peasant-list">
+      <h3>👥 Peasants</h3>
+      <div id="peasant-list-items"></div>
+    </div>
+    <div id="loading">
+      <div id="loading-content">
+        <h1>Medieval Kingdom 3D</h1>
+        <p>Loading world...</p>
+        <div id="loading-bar">
+          <div id="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
